@@ -48,7 +48,7 @@ users.statics.authenticateBasic = function(auth) {
     .catch(error => {throw error;});
 };
 
-user.statics.authenticateBearer = function(token){
+users.statics.authenticateBearer = function(token){
 
   if(usedToken.has(token)){
     return Promise.reject('invalid token');

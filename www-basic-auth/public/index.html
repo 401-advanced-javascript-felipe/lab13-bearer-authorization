@@ -107,7 +107,7 @@
                 url: "http://localhost:3000/signin",
                 async: false,
                 headers: {
-                  "Authorization": "Bearer " + authstring
+                  "Authorization": "Basic " + authstring
                 },
                 success: function(data){
                   token = data;

@@ -45,7 +45,9 @@ module.exports = (req, res, next) => {
   }
 
   function _authBearer(authString){
-    // return User.aun
+    return User.authenticateBearer(authString)
+      .then(user => _authenticate(user))
+      .catch(next);
   }
   
   function _authError() {
