@@ -49,13 +49,11 @@
 
         <script>
             let token;
-
             try{
               token = localStorage.getItem('authToken');
             }catch(e){
               console.error(e);
             }
-
             if(token){
               $.ajax({
                 type: "GET",
@@ -75,14 +73,12 @@
                 }
               });
             }
-
             $('#signup').on('submit', function(e) {
               let username = $(this).find('[name=username]').val();
               let password = $(this).find('[name=password]').val();
               let email = $(this).find('[name=email]').val();
               let role = $(this).find('[name=role]').val();
               let postData = {username, password, email, role};
-
               e.preventDefault();
               $.ajax({
                 type: "POST",
@@ -96,7 +92,6 @@
                 },
               });
             });
-
             $('#signin').on('submit', function(e) {
               e.preventDefault();
               let username = $(this).find('[name=username]').val();
@@ -107,7 +102,9 @@
                 url: "http://localhost:3000/signin",
                 async: false,
                 headers: {
-                  "Authorization": "Basic " + authstring
+                  "Authorization": "Bearer " + authstring
+                  // "Authorization": "Basic " + authstring
+
                 },
                 success: function(data){
                   token = data;
@@ -116,13 +113,10 @@
                 },
               });
             });
-
         </script>
 
         <script>
-
           let googleURL = "https://accounts.google.com/o/oauth2/v2/auth";
-
           let options = {
             client_id: '', // ADD CLIENT ID FOR GOOGLE HERE
             redirect_uri: 'http://localhost:3000/oauth',
@@ -130,16 +124,12 @@
             prompt: 'consent',
             response_type: 'code'
           }
-
           let QueryString = Object.keys(options).map( (key,i) => {
             return `${key}=` + encodeURIComponent(options[key]);
           }).join("&");
-
           let authURL = `${googleURL}?${QueryString}`;
-
           // https://accounts.google.com/o/oauth2/v2/auth?client_id=744634606424-7h9v8kehl8i9ind75sencuidp5se23u7.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Foauth&scope=email%20openid%20profile&prompt=consent&response_type=code
           $('#oauth').append(`<a href="${authURL}">Login With Google</a>`);
-
         </script>
 
 
