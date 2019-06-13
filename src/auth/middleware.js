@@ -5,11 +5,14 @@ const User = require('./users-model.js');
 module.exports = (req, res, next) => {
   
   try {
+    console.log(req.headers.authorization);
     let [authType, authString] = req.headers.authorization.split(/\s+/);
     
     switch( authType.toLowerCase() ) {
       case 'basic': 
         return _authBasic(authString);
+      case 'bearer':
+        return _authBearer(authString);
       default: 
         return _authError();
     }
@@ -40,6 +43,13 @@ module.exports = (req, res, next) => {
     else {
       _authError();
     }
+  }
+
+  function _authBearer(authString){
+    console.log('here', authString);
+    return User.authenticateBearer(authString)
+      .then(user => _authenticate(user))
+      .catch(next);
   }
   
   function _authError() {

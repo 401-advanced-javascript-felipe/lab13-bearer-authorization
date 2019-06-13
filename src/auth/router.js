@@ -19,7 +19,7 @@ authRouter.post('/signup', (req, res, next) => {
     }).catch(next);
 });
 
-authRouter.post('/signin', auth, (req, res, next) => {
+authRouter.get('/signin', auth, (req, res, next) => {
   res.cookie('auth', req.token);
   res.send(req.token);
 });
@@ -31,5 +31,18 @@ authRouter.get('/oauth', (req,res,next) => {
     })
     .catch(next);
 });
+
+
+authRouter.post('/key', auth, (req, res, next) => {
+  let user = new User(req.body);
+  user.save()
+    .then( (user) => {
+      req.token = user.generateKeyToken();
+      req.user = user;
+      res.set('token', req.token);
+      res.cookie('auth', req.token);
+      res.send(req.token);
+    }).catch(next);
+})
 
 module.exports = authRouter;
